@@ -1,3 +1,4 @@
+/** Vite config: React plugin enables JSX/TSX and fast refresh */
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 

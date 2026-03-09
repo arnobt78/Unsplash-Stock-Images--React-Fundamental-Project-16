@@ -76,6 +76,7 @@ html {
   }
 } */
 
+/* Applied to <body> by context when user toggles dark mode; overrides theme vars */
 .dark-theme {
   --textColor: var(--dark-mode-text-color);
   --backgroundColor: var(--dark-mode-bg-color);
@@ -332,6 +333,19 @@ Toggle Container
 Search Form
 ========
 */
+.project-tagline {
+  text-align: center;
+  font-size: var(--small-text);
+  color: var(--grey-600);
+  max-width: var(--view-width);
+  margin: 0 auto 0.5rem;
+  line-height: 1.4;
+}
+
+.dark-theme .project-tagline {
+  color: var(--grey-400);
+}
+
 .title {
   color: var(--primary-500);
 }
@@ -379,6 +393,81 @@ Gallery
   height: 10rem;
 }
 
+.gallery-item-wrapper {
+  position: relative;
+}
+
+.gallery-img {
+  cursor: pointer;
+}
+
+.gallery-download-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 2rem;
+  height: 2rem;
+  border: none;
+  border-radius: var(--borderRadius);
+  background: rgba(0, 0, 0, 0.5);
+  color: var(--white);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.gallery-download-btn:hover {
+  background: rgba(0, 0, 0, 0.75);
+}
+
+.gallery-download-icon {
+  font-size: 1.15rem;
+}
+
+.gallery-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: grid;
+  place-items: center;
+  z-index: 1000;
+  padding: 1rem;
+  cursor: pointer;
+}
+
+.gallery-modal-content {
+  position: relative;
+  max-width: 100%;
+  max-height: 90vh;
+  cursor: default;
+}
+
+.gallery-modal-img {
+  max-height: 90vh;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.gallery-modal-close {
+  position: absolute;
+  top: -2.5rem;
+  right: 0;
+  background: transparent;
+  border: none;
+  color: var(--white);
+  font-size: 2rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0.25rem;
+}
+
+.gallery-modal-close:hover {
+  opacity: 0.8;
+}
+
 @media (min-width: 768px) {
   .image-container {
     grid-template-columns: 1fr 1fr;
@@ -387,5 +476,28 @@ Gallery
 @media (min-width: 992px) {
   .image-container {
     grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+/* Skeleton loading: placeholder cards while Gallery fetches; same grid as images to avoid layout shift */
+.skeleton-card {
+  width: 100%;
+  height: 10rem;
+  background: var(--grey-300);
+  border-radius: var(--borderRadius);
+  animation: skeleton-pulse 1.5s ease-in-out infinite;
+}
+
+.dark-theme .skeleton-card {
+  background: var(--grey-700);
+}
+
+@keyframes skeleton-pulse {
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
   }
 }

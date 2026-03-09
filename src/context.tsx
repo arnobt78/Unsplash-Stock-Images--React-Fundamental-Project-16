@@ -1,5 +1,10 @@
+/**
+ * Global state via React Context: theme (dark/light) and search term.
+ * Any component under AppProvider can read/update these via useGlobalContext().
+ */
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
+/** Shape of the value provided by AppContext (theme + search) */
 interface AppContextValue {
   isDarkTheme: boolean;
   toggleDarkTheme: () => void;
@@ -9,6 +14,7 @@ interface AppContextValue {
 
 const AppContext = createContext<AppContextValue | undefined>(undefined);
 
+/** Resolves initial dark mode: localStorage first, then system preference (prefers-color-scheme) */
 const getInitialDarkMode = (): boolean => {
   const prefersDarkMode = window.matchMedia(
     '(prefers-color-scheme:dark)'
@@ -25,12 +31,14 @@ interface AppProviderProps {
 export const AppProvider = ({ children }: AppProviderProps) => {
   const [isDarkTheme, setIsDarkTheme] = useState<boolean>(getInitialDarkMode());
   const [searchTerm, setSearchTerm] = useState<string>('cat');
+  /** Flips theme and persists to localStorage so it survives refresh */
   const toggleDarkTheme = () => {
     const newDarkTheme = !isDarkTheme;
     setIsDarkTheme(newDarkTheme);
     localStorage.setItem('darkTheme', String(newDarkTheme));
   };
 
+  /** Apply .dark-theme on <body> so CSS variables switch for the whole app */
   useEffect(() => {
     document.body.classList.toggle('dark-theme', isDarkTheme);
   }, [isDarkTheme]);
@@ -43,6 +51,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
   );
 };
 
+/** Hook to read/update global state; throws if used outside AppProvider */
 export const useGlobalContext = (): AppContextValue => {
   const context = useContext(AppContext);
   if (context === undefined) {

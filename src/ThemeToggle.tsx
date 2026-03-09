@@ -1,3 +1,7 @@
+/**
+ * ThemeToggle: one button that switches light/dark. Uses global context;
+ * icon shows sun (light mode) or moon (dark mode).
+ */
 import { useGlobalContext } from './context';
 import { BsFillSunFill, BsFillMoonFill } from 'react-icons/bs';
 
