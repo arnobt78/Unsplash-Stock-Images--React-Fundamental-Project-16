@@ -1,16 +1,6 @@
-# Unsplash Images - React Fundamental Project 17
+# Unsplash Images - React, Vite, Typescript, React Query, Context API Fundamental Project 17
 
----
-
-![Screenshot](https://github.com/user-attachments/assets/b317edc1-5498-4ba7-931d-3d9c9f03a655)
-
----
-
-## Project Summary
-
-Unsplash Images is a React learning project that demonstrates core React concepts by building a fully functional image search application using the [Unsplash API](https://unsplash.com/developers). The app enables users to search and view high-quality photos, toggle between light and dark themes, and experience best practices in state management, API integration, context usage, and modern React tooling. This project is ideal for those seeking to learn practical React skills and understand how to integrate third-party APIs, manage global state, and deploy applications.
-
-- **Live-Demo:** https://unsplash-images-arnob.netlify.app/
+- **Live Demo:** []()
 
 ---
 
@@ -177,7 +167,8 @@ CSS variables and a `.dark-theme` class enable dark mode. Example:
   --textColor: var(--grey-900);
   --dark-mode-bg-color: #333;
   --dark-mode-text-color: #f0f0f0;
-  --darkModeTransition: color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+  --darkModeTransition:
+    color 0.3s ease-in-out, background-color 0.3s ease-in-out;
 }
 .dark-theme {
   --backgroundColor: var(--dark-mode-bg-color);
@@ -193,7 +184,7 @@ body {
 Dark mode is toggled in JS by:
 
 ```js
-document.body.classList.toggle('dark-theme', isDarkTheme);
+document.body.classList.toggle("dark-theme", isDarkTheme);
 ```
 
 ---
@@ -229,8 +220,8 @@ document.body.classList.toggle('dark-theme', isDarkTheme);
 const toggleDarkTheme = () => {
   const newDarkTheme = !isDarkTheme;
   setIsDarkTheme(newDarkTheme);
-  document.body.classList.toggle('dark-theme', newDarkTheme);
-  localStorage.setItem('darkTheme', newDarkTheme);
+  document.body.classList.toggle("dark-theme", newDarkTheme);
+  localStorage.setItem("darkTheme", newDarkTheme);
 };
 ```
 
@@ -248,7 +239,9 @@ const toggleDarkTheme = () => {
     value={searchTerm}
     onChange={(e) => setSearchTerm(e.target.value)}
   />
-  <button type="submit" className="btn">Search</button>
+  <button type="submit" className="btn">
+    Search
+  </button>
 </form>
 ```
 
@@ -258,9 +251,9 @@ const toggleDarkTheme = () => {
 
 ```js
 const { data, isLoading, isError } = useQuery(
-  ['images', searchTerm],
+  ["images", searchTerm],
   () => fetchImages(searchTerm),
-  { keepPreviousData: true }
+  { keepPreviousData: true },
 );
 ```
 
@@ -271,7 +264,7 @@ const { data, isLoading, isError } = useQuery(
 ```js
 const fetchImages = async (searchTerm) => {
   const response = await fetch(
-    `https://api.unsplash.com/search/photos?client_id=${import.meta.env.VITE_API_KEY}&query=${searchTerm}`
+    `https://api.unsplash.com/search/photos?client_id=${import.meta.env.VITE_API_KEY}&query=${searchTerm}`,
   );
   const data = await response.json();
   return data.results;

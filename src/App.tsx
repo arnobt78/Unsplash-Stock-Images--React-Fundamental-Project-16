@@ -1,6 +1,6 @@
-import Gallery from './Gallery';
-import SearchForm from './SearchForm';
-import ThemeToggle from './ThemeToggle';
+import Gallery from './Gallery.tsx';
+import SearchForm from './SearchForm.tsx';
+import ThemeToggle from './ThemeToggle.tsx';
 
 const App = () => {
   return (

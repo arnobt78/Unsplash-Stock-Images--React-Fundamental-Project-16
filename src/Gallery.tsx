@@ -1,16 +1,20 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { useGlobalContext } from './context';
+import type { UnsplashSearchResponse } from './types/unsplash';
 
 const url = `https://api.unsplash.com/search/photos?client_id=${
   import.meta.env.VITE_API_KEY
 }`;
+
 const Gallery = () => {
   const { searchTerm } = useGlobalContext();
   const response = useQuery({
     queryKey: ['images', searchTerm],
-    queryFn: async () => {
-      const result = await axios.get(`${url}&query=${searchTerm}`);
+    queryFn: async (): Promise<UnsplashSearchResponse> => {
+      const result = await axios.get<UnsplashSearchResponse>(
+        `${url}&query=${searchTerm}`
+      );
       return result.data;
     },
   });
@@ -41,14 +45,14 @@ const Gallery = () => {
   return (
     <section className='image-container'>
       {results.map((item) => {
-        const url = item?.urls?.regular;
+        const imgUrl = item?.urls?.regular;
         return (
           <img
-            src={url}
+            src={imgUrl}
             key={item.id}
-            alt={item.alt_description}
+            alt={item.alt_description ?? ''}
             className='img'
-          ></img>
+          />
         );
       })}
     </section>
