@@ -49,6 +49,7 @@ const Gallery = () => {
   const { currentPage, setTotalPages } = usePaginationContext();
   /** When set, the full-size modal is open showing this photo */
   const [modalImage, setModalImage] = useState<UnsplashPhoto | null>(null);
+  const [hasRetriedIdle, setHasRetriedIdle] = useState(false);
 
   /** Escape key closes modal; lock body scroll while modal is open */
   useEffect(() => {
@@ -88,12 +89,31 @@ const Gallery = () => {
     },
   });
 
+  const { data, isError, fetchStatus, refetch } = response;
+
   useEffect(() => {
     // Sync server-reported page count into pagination context.
-    if (response.data?.total_pages) {
-      setTotalPages(response.data.total_pages);
+    if (data?.total_pages) {
+      setTotalPages(data.total_pages);
     }
-  }, [response.data?.total_pages, setTotalPages]);
+  }, [data?.total_pages, setTotalPages]);
+
+  useEffect(() => {
+    if (data || isError || fetchStatus !== "idle") {
+      return;
+    }
+    if (hasRetriedIdle) {
+      return;
+    }
+    setHasRetriedIdle(true);
+    void refetch();
+  }, [data, isError, fetchStatus, refetch, hasRetriedIdle]);
+
+  useEffect(() => {
+    if (fetchStatus === "fetching") {
+      setHasRetriedIdle(false);
+    }
+  }, [fetchStatus]);
 
   /** Skeleton grid: same layout as image grid (12 cards) so no layout shift */
   if (response.isLoading && response.fetchStatus === "fetching") {
@@ -135,7 +155,9 @@ const Gallery = () => {
   if (!response.data) {
     return (
       <section className="image-container">
-        <h4>Unable to load images...</h4>
+        {Array.from({ length: 12 }, (_, i) => (
+          <div key={i} className="skeleton-card" aria-hidden="true" />
+        ))}
       </section>
     );
   }
