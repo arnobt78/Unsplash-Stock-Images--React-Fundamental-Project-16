@@ -68,10 +68,13 @@ const Gallery = () => {
   /** React Query: cache key includes searchTerm so new search refetches; results cached per term */
   const response = useQuery({
     // Cache key includes both term and page for independent caching per page.
-    queryKey: ["images", searchTerm, currentPage],
-    enabled: Boolean(API_KEY),
-    retry: 1,
+    queryKey: ["images", searchTerm, currentPage, API_KEY],
+    retry: 0,
+    refetchOnWindowFocus: false,
     queryFn: async (): Promise<UnsplashSearchResponse> => {
+      if (!API_KEY) {
+        throw new Error("Missing Unsplash API key");
+      }
       const result = await axios.get<UnsplashSearchResponse>(API_URL, {
         timeout: 12000,
         params: {
@@ -92,15 +95,8 @@ const Gallery = () => {
     }
   }, [response.data?.total_pages, setTotalPages]);
 
-  if (!API_KEY) {
-    return (
-      <section className="image-container">
-        <h4>Missing Unsplash API key...</h4>
-      </section>
-    );
-  }
   /** Skeleton grid: same layout as image grid (12 cards) so no layout shift */
-  if (response.isLoading) {
+  if (response.isLoading && response.fetchStatus === "fetching") {
     return (
       <section className="image-container">
         {Array.from({ length: 12 }, (_, i) => (
@@ -110,9 +106,36 @@ const Gallery = () => {
     );
   }
   if (response.isError) {
+    const isMissingKeyError =
+      response.error instanceof Error &&
+      response.error.message === "Missing Unsplash API key";
+
+    const axiosError = axios.isAxiosError(response.error)
+      ? response.error
+      : null;
+    const status = axiosError?.response?.status;
+    const isUnauthorized = status === 401;
+    const isRateLimited = status === 403;
+
     return (
       <section className="image-container">
-        <h4>There was an error...</h4>
+        <h4>
+          {isMissingKeyError
+            ? "Missing Unsplash API key..."
+            : isUnauthorized
+              ? "Invalid Unsplash API key..."
+              : isRateLimited
+                ? "Unsplash rate limit reached..."
+                : "There was an error..."}
+        </h4>
+      </section>
+    );
+  }
+
+  if (!response.data) {
+    return (
+      <section className="image-container">
+        <h4>Unable to load images...</h4>
       </section>
     );
   }
