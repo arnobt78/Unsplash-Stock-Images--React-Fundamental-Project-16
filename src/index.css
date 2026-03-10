@@ -79,10 +79,26 @@ html {
   }
 } */
 
-/* Applied to <body> by context when user toggles dark mode; overrides theme vars */
-.dark-theme {
+/* Browser/system dark: applied instantly with no JS when user has no saved preference */
+@media (prefers-color-scheme: dark) {
+  html:not(.light-theme) {
+    --textColor: var(--dark-mode-text-color);
+    --backgroundColor: var(--dark-mode-bg-color);
+  }
+  html:not(.light-theme) .dark-toggle:hover { background: var(--grey-700); }
+  html:not(.light-theme) .project-tagline { color: var(--grey-400); }
+  html:not(.light-theme) .search-input { border-color: var(--grey-600); }
+  html:not(.light-theme) .skeleton-card { background: var(--grey-700); }
+}
+/* User chose dark (saved) or toggled to dark */
+html.dark-theme {
   --textColor: var(--dark-mode-text-color);
   --backgroundColor: var(--dark-mode-bg-color);
+}
+/* User chose light (saved) so force light even when system is dark */
+html.light-theme {
+  --textColor: var(--grey-900);
+  --backgroundColor: var(--grey-50);
 }
 
 body {
@@ -379,7 +395,7 @@ Toggle Container
   color: var(--primary-500);
 }
 
-.dark-theme .dark-toggle:hover {
+html.dark-theme .dark-toggle:hover {
   background: var(--grey-700);
 }
 
@@ -407,7 +423,7 @@ Search Form
   font-family: var(--font-sans);
 }
 
-.dark-theme .project-tagline {
+html.dark-theme .project-tagline {
   color: var(--grey-400);
 }
 
@@ -460,7 +476,7 @@ Search Form
   outline-offset: -2px;
 }
 
-.dark-theme .search-input {
+html.dark-theme .search-input {
   border-color: var(--grey-600);
 }
 
@@ -615,7 +631,7 @@ Gallery
   animation: skeleton-pulse 1.5s ease-in-out infinite;
 }
 
-.dark-theme .skeleton-card {
+html.dark-theme .skeleton-card {
   background: var(--grey-700);
 }
 
