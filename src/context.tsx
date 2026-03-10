@@ -38,9 +38,11 @@ export const AppProvider = ({ children }: AppProviderProps) => {
     localStorage.setItem('darkTheme', String(newDarkTheme));
   };
 
-  /** Apply .dark-theme on <body> so CSS variables switch for the whole app */
+  /** Apply .dark-theme on <body> and sync meta theme-color for browser UI (respects system default on first load) */
   useEffect(() => {
     document.body.classList.toggle('dark-theme', isDarkTheme);
+    const meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', isDarkTheme ? '#1e1e1e' : '#f8fafc');
   }, [isDarkTheme]);
   return (
     <AppContext.Provider
