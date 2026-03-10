@@ -8,7 +8,7 @@
 
 - **Live Demo:** [https://unsplash-stock-images.vercel.app/](https://unsplash-stock-images.vercel.app/)
 
-This project is a learning-focused Unsplash image search app built with React, Vite, TypeScript, React Query, and Context API. It demonstrates real-world patterns: fetching from an external API, global state, dark/light theming, skeleton loading, image modal view, and local download—all in a single-page, responsive UI. Use it as a reference for API integration, TypeScript in React, and reusable component design.
+A learning-focused Unsplash image search app built with React, Vite, TypeScript, React Query, and Context API. It demonstrates real-world patterns: fetching from an external API, global state, dark/light theming, skeleton loading, image modal view, and local download—all in a single-page, responsive UI. Use it as a reference for API integration, TypeScript in React, and reusable component design.
 
 ---
 

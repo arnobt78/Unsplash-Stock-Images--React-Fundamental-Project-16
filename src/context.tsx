@@ -14,14 +14,12 @@ interface AppContextValue {
 
 const AppContext = createContext<AppContextValue | undefined>(undefined);
 
-/** Resolves initial dark mode: localStorage first, then system preference (prefers-color-scheme) */
+/** Resolves initial dark mode: use stored preference if set, otherwise system (prefers-color-scheme) */
 const getInitialDarkMode = (): boolean => {
-  const prefersDarkMode = window.matchMedia(
-    '(prefers-color-scheme:dark)'
-  ).matches;
-  const storedDarkMode = localStorage.getItem('darkTheme') === 'true';
-
-  return storedDarkMode || prefersDarkMode;
+  const stored = localStorage.getItem('darkTheme');
+  if (stored === 'true') return true;
+  if (stored === 'false') return false;
+  return window.matchMedia('(prefers-color-scheme: dark)').matches;
 };
 
 interface AppProviderProps {
