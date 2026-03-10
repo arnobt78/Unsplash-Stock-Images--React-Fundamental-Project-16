@@ -49,7 +49,6 @@ const Gallery = () => {
   const { currentPage, setTotalPages } = usePaginationContext();
   /** When set, the full-size modal is open showing this photo */
   const [modalImage, setModalImage] = useState<UnsplashPhoto | null>(null);
-  const [hasRetriedIdle, setHasRetriedIdle] = useState(false);
 
   /** Escape key closes modal; lock body scroll while modal is open */
   useEffect(() => {
@@ -70,6 +69,7 @@ const Gallery = () => {
   const response = useQuery({
     // Cache key includes both term and page for independent caching per page.
     queryKey: ["images", searchTerm, currentPage, API_KEY],
+    networkMode: "always",
     retry: 0,
     refetchOnWindowFocus: false,
     queryFn: async (): Promise<UnsplashSearchResponse> => {
@@ -89,7 +89,7 @@ const Gallery = () => {
     },
   });
 
-  const { data, isError, fetchStatus, refetch } = response;
+  const { data } = response;
 
   useEffect(() => {
     // Sync server-reported page count into pagination context.
@@ -97,23 +97,6 @@ const Gallery = () => {
       setTotalPages(data.total_pages);
     }
   }, [data?.total_pages, setTotalPages]);
-
-  useEffect(() => {
-    if (data || isError || fetchStatus !== "idle") {
-      return;
-    }
-    if (hasRetriedIdle) {
-      return;
-    }
-    setHasRetriedIdle(true);
-    void refetch();
-  }, [data, isError, fetchStatus, refetch, hasRetriedIdle]);
-
-  useEffect(() => {
-    if (fetchStatus === "fetching") {
-      setHasRetriedIdle(false);
-    }
-  }, [fetchStatus]);
 
   /** Skeleton grid: same layout as image grid (12 cards) so no layout shift */
   if (response.isLoading && response.fetchStatus === "fetching") {
