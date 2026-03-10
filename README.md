@@ -6,9 +6,9 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)](https://www.typescriptlang.org/)
 [![React Query](https://img.shields.io/badge/React_Query-4-FF4154)](https://tanstack.com/query/latest)
 
-- **Live Demo:** [https://unsplash-stock-images.vercel.app/](https://unsplash-stock-images.vercel.app/)
-
 A learning-focused Unsplash image search app built with React, Vite, TypeScript, React Query, and Context API. It demonstrates real-world patterns: fetching from an external API, global state, dark/light theming, skeleton loading, image modal view, and local download—all in a single-page, responsive UI. Use it as a reference for API integration, TypeScript in React, and reusable component design.
+
+- **Live Demo:** [https://unsplash-stock-images.vercel.app/](https://unsplash-stock-images.vercel.app/)
 
 ---
 
@@ -50,7 +50,7 @@ A learning-focused Unsplash image search app built with React, Vite, TypeScript,
 
 ## Project Structure
 
-```
+```bash
 07-unsplash-images/
 ├── public/
 │   └── vite.svg
@@ -242,7 +242,7 @@ The app does **not** use a custom backend. It talks directly to the **Unsplash A
 
 ### Example request URL
 
-```
+```bash
 https://api.unsplash.com/search/photos?client_id=YOUR_KEY&per_page=12&query=cat
 ```
 
@@ -332,7 +332,7 @@ Gallery uses `urls.regular` for the grid and `urls.full` for the modal and downl
 
 ### Theme toggle and persistence (context)
 
-```ts
+```typescript
 const toggleDarkTheme = () => {
   const newDarkTheme = !isDarkTheme;
   setIsDarkTheme(newDarkTheme);
@@ -346,7 +346,7 @@ useEffect(() => {
 
 ### Search form submit and context
 
-```tsx
+```typescript
 const { setSearchTerm } = useGlobalContext();
 
 const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -361,7 +361,7 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 
 ### Fetching images with React Query
 
-```tsx
+```typescript
 const response = useQuery({
   queryKey: ["images", searchTerm],
   queryFn: async (): Promise<UnsplashSearchResponse> => {
@@ -375,7 +375,7 @@ const response = useQuery({
 
 ### Skeleton loading state
 
-```tsx
+```typescript
 if (response.isLoading) {
   return (
     <section className="image-container">
@@ -389,7 +389,7 @@ if (response.isLoading) {
 
 ### Download image helper (blob then anchor)
 
-```ts
+```typescript
 const downloadImage = async (imageUrl: string, filename: string) => {
   try {
     const res = await fetch(imageUrl, { mode: "cors" });
