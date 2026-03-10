@@ -85,10 +85,18 @@ html {
     --textColor: var(--dark-mode-text-color);
     --backgroundColor: var(--dark-mode-bg-color);
   }
-  html:not(.light-theme) .dark-toggle:hover { background: var(--grey-700); }
-  html:not(.light-theme) .project-tagline { color: var(--grey-400); }
-  html:not(.light-theme) .search-input { border-color: var(--grey-600); }
-  html:not(.light-theme) .skeleton-card { background: var(--grey-700); }
+  html:not(.light-theme) .dark-toggle:hover {
+    background: var(--grey-700);
+  }
+  html:not(.light-theme) .project-tagline {
+    color: var(--grey-400);
+  }
+  html:not(.light-theme) .search-input {
+    border-color: var(--grey-600);
+  }
+  html:not(.light-theme) .skeleton-card {
+    background: var(--grey-700);
+  }
 }
 /* User chose dark (saved) or toggled to dark */
 html.dark-theme {
@@ -551,6 +559,7 @@ Gallery
   place-items: center;
   cursor: pointer;
   transition: var(--transition-smooth);
+  -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
 }
 
@@ -643,4 +652,95 @@ html.dark-theme .skeleton-card {
   50% {
     opacity: 1;
   }
+}
+
+/*
+========
+Pagination
+========
+*/
+
+.pagination {
+  width: var(--view-width);
+  max-width: var(--max-width);
+  margin: 0 auto 3.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.pagination-btn {
+  border: 1px solid var(--grey-300);
+  background: var(--backgroundColor);
+  color: var(--textColor);
+  min-width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 0.55rem;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  border-color: var(--primary-500);
+  color: var(--primary-500);
+}
+
+.pagination-btn:focus-visible {
+  outline: 2px solid var(--primary-400);
+  outline-offset: 2px;
+}
+
+.pagination-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination-nav-btn {
+  min-width: 4rem;
+  text-transform: capitalize;
+}
+
+.pagination-btn-active {
+  border-color: var(--primary-500);
+  background: var(--primary-500);
+  color: var(--white);
+}
+
+html.dark-theme .pagination-btn {
+  border-color: var(--grey-600);
+}
+
+/*
+========
+Footer
+========
+*/
+
+.app-footer {
+  width: var(--view-width);
+  max-width: var(--max-width);
+  margin: 0 auto 2.25rem;
+  display: flex;
+  justify-content: center;
+}
+
+.app-footer-text {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  font-size: var(--small-text);
+  color: var(--grey-600);
+}
+
+.app-footer-icon {
+  font-size: 1rem;
+}
+
+html.dark-theme .app-footer-text {
+  color: var(--grey-400);
 }

@@ -6,5 +6,6 @@ interface ImportMetaEnv {
 }
 
 interface ImportMeta {
+  /** Typed access for import.meta.env inside app code */
   readonly env: ImportMetaEnv;
 }

@@ -16,5 +16,8 @@ export interface UnsplashPhoto {
 
 /** Shape of GET /search/photos response; Gallery uses response.data.results */
 export interface UnsplashSearchResponse {
+  /** Current page result payload */
   results: UnsplashPhoto[];
+  /** Total page count provided by Unsplash search API */
+  total_pages?: number;
 }
