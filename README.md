@@ -10,7 +10,7 @@ A learning-focused Unsplash image search app built with React, Vite, TypeScript,
 
 - **Live Demo:** [https://unsplash-stock-images.vercel.app/](https://unsplash-stock-images.vercel.app/)
 
-<img width="1687" height="835" alt="Screenshot 2026-03-11 at 16 17 34" src="https://github.com/user-attachments/assets/eef92ab9-b4a5-47c6-a9c4-eb1f97cdd56f" />
+![Screenshot 2026-03-11 at 16 17 34](https://github.com/user-attachments/assets/eef92ab9-b4a5-47c6-a9c4-eb1f97cdd56f)
 
 ## Table of Contents
 
